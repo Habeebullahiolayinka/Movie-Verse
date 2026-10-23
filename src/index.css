@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base: #08090d;
+  --color-surface: #101218;
+  --color-card: #161922;
+  --color-line: #252833;
+  --color-ink: #f5f5f5;
+  --color-muted: #a5a7b4;
+  --color-accent: #e5095a;
+  --color-accent-hover: #ff2875;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+    animation: fade-up 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-up { animation: none; }
+}
+
+:root {
+    color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+    color-scheme: light;
+    --color-base: #f4f5f9;
+    --color-surface: #ffffff;
+    --color-card: #ffffff;
+    --color-line: #dfe1ea;
+    --color-ink: #12141c;
+    --color-muted: #5b5f70;
+    --color-accent: #e5095a;
+    --color-accent-hover: #c20750;
+    --color-danger: #d6293d;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --color-base: #08090d;
+    --color-surface: #101218;
+    --color-card: #161922;
+    --color-line: #252833;
+    --color-ink: #f5f5f5;
+    --color-muted: #a5a7b4;
+    --color-accent: #e5095a;
+    --color-accent-hover: #ff2875;
+    --color-danger: #ff5c6c;
+}
