@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "../../component/navbar";
+import WatchActions from "../../component/watchActions";
 import { fetchSeriesById } from "../../api/movies";
 
 export default function SeriesDetail() {
@@ -72,6 +73,8 @@ export default function SeriesDetail() {
                             <p className="mt-6 max-w-2xl leading-7 text-muted">
                                 {show.overview || "No description available."}
                             </p>
+
+                            <WatchActions movie={show} kind="series" />
                         </div>
                     </div>
                 )}

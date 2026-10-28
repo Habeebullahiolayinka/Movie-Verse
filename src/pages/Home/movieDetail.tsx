@@ -4,10 +4,13 @@ import { useEffect } from "react";
 import Navbar from "../../component/navbar";
 import { fetchMovieById } from "../../api/movies";
 import { useRecentlyViewed } from "../../hooks/useRecentlyViewed";
+import WatchActions from "../../component/watchActions";
+
 
 export default function MovieDetail() {
     const { id } = useParams();
     const navigate = useNavigate()
+    
 
     const { data: movie, isPending, isError } = useQuery({
         queryKey: ["movie", id],
@@ -36,13 +39,13 @@ export default function MovieDetail() {
             <Navbar />
 
             <div className="px-6 py-10 md:px-12">
-                 <button
-                type="button"
-                onClick={() => navigate(-1)}
-                className="text-sm font-medium text-accent-hover hover:underline"
-            >
-                ← Back
-            </button>
+                <button
+                    type="button"
+                    onClick={() => navigate(-1)}
+                    className="text-sm font-medium text-accent-hover hover:underline"
+                >
+                    ← Back
+                </button>
 
                 {isPending ? (
                     <p role="status" className="mt-8 text-muted">
@@ -77,6 +80,8 @@ export default function MovieDetail() {
                             <p className="mt-6 max-w-2xl leading-7 text-muted">
                                 {movie.overview || "No description available."}
                             </p>
+
+                            <WatchActions movie={movie} kind="movie" />
                         </div>
                     </div>
                 )}

@@ -60,6 +60,7 @@ export default function Navbar({ transparent = false }: NavbarProps) {
                     {user && (
                         <NavLink to="/favorites" className={linkClass}>Favorites</NavLink>
                     )}
+                    {user && <NavLink to="/passport" className={linkClass}>Passport</NavLink>}
                 </div>
 
                 <div className="flex items-center gap-3">

@@ -11,6 +11,7 @@ import SearchPage from "./pages/Home/searchPage"
 import SeriesDetail from "./pages/Home/seriesDetail"
 import ProtectedRoute from "./component/protectedRotes";
 import Favorites from "./pages/Home/favorites";
+import PassportPage from "./pages/Home/passportPage";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/favorites" element={<Favorites />} />
-          {/* future protected pages go here */}
+          <Route path="/passport" element={<PassportPage />} />
         </Route>
 
         <Route path="*" element={<h1 className="p-8 text-ink">Page not found</h1>} />
