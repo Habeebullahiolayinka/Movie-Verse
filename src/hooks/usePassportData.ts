@@ -54,5 +54,5 @@ export function usePassportData() {
         else seriesFavorites.toggleFavorite(item.media);
     }
 
-    return { favorites, history, events ,watchlist, stats, toggleFavorite };
+    return { favorites, history, events, watchlist, stats, toggleFavorite };
 }

@@ -31,5 +31,14 @@ export function useWatched(kind: MediaKind) {
         );
     }
 
-    return { watched, isWatched, toggleWatched };
+    function markWatched(movie: Movie) {
+        setWatched((current) =>
+            current.some((entry) => entry.media.id === movie.id)
+                ? current
+                : [{ media: movie, watchedAt: new Date().toISOString() }, ...current]
+        );
+    }
+
+    return { watched, isWatched, toggleWatched, markWatched };
 }
+

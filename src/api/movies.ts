@@ -234,3 +234,21 @@ export async function fetchSeriesById(id: string): Promise<SeriesDetails> {
         seasons: item.number_of_seasons,
     };
 }
+
+type TmdbVideo = { key: string; site: string; type: string; official: boolean };
+
+export async function fetchTrailerKey(
+    kind: "movie" | "series",
+    id: string
+): Promise<string | null> {
+    const path = kind === "movie" ? `/movie/${id}/videos` : `/tv/${id}/videos`;
+    const data = await tmdbGet<{ results: TmdbVideo[] }>(path);
+
+    const youtube = data.results.filter((video) => video.site === "YouTube");
+    const pick =
+        youtube.find((video) => video.type === "Trailer" && video.official) ??
+        youtube.find((video) => video.type === "Trailer") ??
+        youtube[0];
+
+    return pick?.key ?? null;
+}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { formatDate } from "../utils/formatDate";
+import { formatDate } from "../utils/formationDate";
 import type { WatchedEntry } from "../hooks/useWatched";
 import type { MediaKind } from "../types/passport";
 

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useActivityLog } from "../hooks/useActivity";
 import { useRequireAuth } from "../hooks/useRequiredAuth";
 import { useWatched } from "../hooks/useWatched";
@@ -11,18 +12,22 @@ type WatchActionsProps = {
 };
 
 export default function WatchActions({ movie, kind }: WatchActionsProps) {
+    const navigate = useNavigate();
     const { requireAuth } = useRequireAuth();
     const { logActivity } = useActivityLog();
     const { isInWatchlist, toggleWatchlist } = useWatchlist(kind);
-    const { isWatched, toggleWatched } = useWatched(kind);
+    const { isWatched, markWatched } = useWatched(kind);
 
     const watched = isWatched(movie.id);
     const inWatchlist = isInWatchlist(movie.id);
 
-    function handleWatched() {
+    function handleWatch() {
         requireAuth(() => {
-            logActivity(watched ? "watched-removed" : "watched-added", kind, movie);
-            toggleWatched(movie);
+            if (!watched) {
+                markWatched(movie);
+                logActivity("watched-added", kind, movie);
+            }
+            navigate(`/watch/${kind}/${movie.id}`);
         });
     }
 
@@ -33,29 +38,31 @@ export default function WatchActions({ movie, kind }: WatchActionsProps) {
         });
     }
 
-    const base = "rounded-md border px-5 py-2 text-sm font-semibold transition ";
-    const on = "border-accent bg-accent text-white";
-    const off = "border-line text-ink hover:bg-card";
-
     return (
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
                 type="button"
-                onClick={handleWatched}
-                aria-pressed={watched}
-                className={base + (watched ? on : off)}
+                onClick={handleWatch}
+                className="rounded-md bg-accent px-6 py-3 font-semibold text-white transition hover:bg-accent-hover"
             >
-                {watched ? "✓ Watched" : "Mark as watched"}
+                ▶ {kind === "movie" ? "Watch movie" : "Watch series"}
             </button>
 
             <button
                 type="button"
                 onClick={handleWatchlist}
                 aria-pressed={inWatchlist}
-                className={base + (inWatchlist ? on : off)}
+                className={
+                    "rounded-md border px-5 py-3 text-sm font-semibold transition " +
+                    (inWatchlist
+                        ? "border-accent bg-accent text-white"
+                        : "border-line text-ink hover:bg-card")
+                }
             >
                 {inWatchlist ? "✓ In watchlist" : "+ Watchlist"}
             </button>
+
+            {watched && <span className="text-sm text-muted">✓ Watched</span>}
         </div>
     );
 }
