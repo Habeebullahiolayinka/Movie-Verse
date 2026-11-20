@@ -43,9 +43,8 @@ export default function Navbar({ transparent = false }: NavbarProps) {
 
     return (
         <header
-            className={`relative z-20 ${
-                transparent ? "bg-transparent" : "border-b border-line bg-base"
-            }`}
+            className={`relative z-20 ${transparent ? "bg-transparent" : "border-b border-line bg-base"
+                }`}
         >
             <nav className="flex items-center justify-between px-6 py-5 md:px-12">
                 <Link to="/" className="text-2xl font-bold">
@@ -118,6 +117,10 @@ export default function Navbar({ transparent = false }: NavbarProps) {
                     <NavLink to="/series" className={linkClass} onClick={() => setIsOpen(false)}>Series</NavLink>
                     {user && (
                         <NavLink to="/favorites" className={linkClass} onClick={() => setIsOpen(false)}>Favorites</NavLink>
+                    )}
+
+                    {user && (
+                        <NavLink to="/passport" className={linkClass}>Passport</NavLink>
                     )}
 
                     {user ? (

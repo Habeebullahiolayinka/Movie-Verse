@@ -29,10 +29,11 @@ export default function SignIn() {
 
     const signInMutation = useMutation({
         mutationFn: signIn,
-        onSuccess: () => {
-            saveUser({ email: email.trim() });
+        onSuccess: (response) => {
+            const { user  } = response.data;
+            saveUser({ email: user.email, name: user.fullName });
             toast.success("Welcome back!");
-            navigate(from, { replace: true });;
+            navigate(from, { replace: true });
         },
         onError: (error) => {
             // 401 is shown inline below, so no toast for it
@@ -88,11 +89,11 @@ export default function SignIn() {
 
             <div className="mt-8 space-y-3">
                 <Button type="button" variant="social">
-                    <GoogleIcon/>
+                    <GoogleIcon />
                     Continue with Google
                 </Button>
                 <Button type="button" variant="social">
-                    <AppleIcon/>
+                    <AppleIcon />
                     Continue with Apple
                 </Button>
             </div>

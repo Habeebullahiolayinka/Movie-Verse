@@ -1,27 +1,20 @@
-export class ApiError extends Error {
-  status: number;
-
-  constructor(message: string, status: number) {
-    super(message);
-    this.name = "ApiError";
-    this.status = status;
-  }
-}
+import { request, ApiError } from "./request";
+export { ApiError };
 
 type SignInInput = {
   email: string;
   password: string;
 };
 
-// Fake backend for now: waits 1 second, accepts one password.
+// Still fake for now: we connect login in the next task.
 export async function signIn({ email, password }: SignInInput) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  if (password !== "password123") {
-    throw new ApiError("Invalid credentials", 401);
-  }
-
-  return { user: { email } };
+  return request<{
+    success: boolean;
+    data: { user: { id: string; fullName: string; email: string } };
+  }>("/auth/login", {
+    method: "POST",
+    body: { email, password },
+  });
 }
 
 export function getErrorMessage(error: unknown): string {
@@ -40,19 +33,31 @@ type SignUpInput = {
   password: string;
 };
 
-export async function signUp({ fullName, email }: SignUpInput) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  if (email.toLowerCase() === "taken@example.com") {
-    throw new ApiError("Email already registered", 409);
-  }
-
-  return { user: { fullName, email } };
+export async function signUp({ fullName, email, password }: SignUpInput) {
+  return request<{
+    success: boolean;
+    data: { user: { id: string; fullName: string; email: string } };
+  }>("/auth/register", {
+    method: "POST",
+    body: { fullName, email, password },
+  });
 }
-
 
 export async function forgotPassword({ email }: { email: string }) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
   return { ok: true, email };
+}
+
+export async function getMe() {
+  return request<{
+    success: boolean;
+    data: { user: { id: string; fullName: string; email: string; avatar: string } };
+  }>("/auth/me");
+}
+
+export async function logout() {
+  return request<{ success: boolean; message: string }>("/auth/logout", {
+    method: "POST",
+  });
 }
