@@ -11,7 +11,7 @@ export async function signIn({ email, password }: SignInInput) {
   return request<{
     success: boolean;
     data: { user: { id: string; fullName: string; email: string } };
-  }>("/auth/login", {
+  }>("/api/auth/login", {
     method: "POST",
     body: { email, password },
   });
@@ -37,7 +37,7 @@ export async function signUp({ fullName, email, password }: SignUpInput) {
   return request<{
     success: boolean;
     data: { user: { id: string; fullName: string; email: string } };
-  }>("/auth/register", {
+  }>("/api/auth/register", {
     method: "POST",
     body: { fullName, email, password },
   });
@@ -53,11 +53,11 @@ export async function getMe() {
   return request<{
     success: boolean;
     data: { user: { id: string; fullName: string; email: string; avatar: string } };
-  }>("/auth/me");
+  }>("/api/auth/me");
 }
 
 export async function logout() {
-  return request<{ success: boolean; message: string }>("/auth/logout", {
+  return request<{ success: boolean; message: string }>("/api/auth/logout", {
     method: "POST",
   });
 }
